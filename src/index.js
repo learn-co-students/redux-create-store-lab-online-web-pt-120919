@@ -1,5 +1,29 @@
 // write your createStore function here
 
+ function createStore(reducer) {
+  let state;
+  
+  function dispatch(action){
+    state = reducer(state, action);
+    render();
+  };
+
+  function getState(){
+    return state;
+  };
+
+  // dispatch({type: '@@INIT'});
+
+  return {
+    dispatch,
+    getState
+  };
+}
+
+let store = createStore(candyReducer)
+store.dispatch({type: '@@INIT'})
+console.log(createStore(candyReducer).dispatch({}))
+
 function candyReducer(state = [], action) {
   switch (action.type) {
     case 'ADD_CANDY':
@@ -10,6 +34,8 @@ function candyReducer(state = [], action) {
 }
 
 function render() {
+//   let store = createStore(candyReducer)
+// store.dispatch({type: '@@INIT'})
   let container = document.getElementById('container');
   if(store.getState()) {
     container.textContent = store.getState().join(' ')
